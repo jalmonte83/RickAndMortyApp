@@ -9,7 +9,7 @@
 import UIKit
 
 class CharacterDetailController: UIViewController {
-    var characters = [CharacterInfo]()
+    var characters: CharacterInfo!
     
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var image: UIImageView!
@@ -21,8 +21,17 @@ class CharacterDetailController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // name.text = characters
-        // Do any additional setup after loading the view.
+        name.text = characters.name
+        species.text = characters.species
+        origin.text = characters.origin.name
+        status.text = characters.status
+        guard let imageUrl = URL.init(string: characters.image) else { return }
+        do {
+           let data = try Data.init(contentsOf: imageUrl)
+            image.image = UIImage.init(data: data)
+        } catch {
+            print("error")
+        }
     }
     
 

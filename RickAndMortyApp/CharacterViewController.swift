@@ -41,6 +41,12 @@ class CharacterViewController: UIViewController {
             }
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destination = segue.destination as? CharacterDetailController,
+            let cellSelected = tableView.indexPathForSelectedRow else {return}
+        let characterSelected = characters[cellSelected.row]
+        destination.characters = characterSelected
+    }
 }
 extension CharacterViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
