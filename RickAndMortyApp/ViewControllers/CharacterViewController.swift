@@ -9,8 +9,9 @@
 import UIKit
 
 class CharacterViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var characterActivityIndicater: UIActivityIndicatorView!
     
     var characters = [CharacterInfo](){
         didSet {
@@ -23,13 +24,15 @@ class CharacterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        characterActivityIndicater.startAnimating()
+        
         loadData()
         dump(characters)
-       
+        
         tableView.dataSource = self
         tableView.delegate = self
-
-
+        
+        
     }
     func loadData() {
         RickAndMortyAPIClient.getCharacters{(error, characters) in
@@ -37,7 +40,7 @@ class CharacterViewController: UIViewController {
                 print(error.errorMessage())
             }
             else if let characters = characters {
-                    self.characters = characters
+                self.characters = characters
             }
         }
     }
@@ -73,6 +76,6 @@ extension CharacterViewController: UITableViewDataSource {
 }
 extension CharacterViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        return 150
     }
 }

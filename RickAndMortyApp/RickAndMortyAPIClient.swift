@@ -9,7 +9,7 @@
 import Foundation
 
 final class RickAndMortyAPIClient {
-    static let client = RickAndMortyAPIClient()
+    
     static func getCharacters(completionHandler: @escaping (AppError?, [CharacterInfo]?) -> Void) {
         let urlString = "https://rickandmortyapi.com/api/character"
         NetworkHelper.performDataTask(urlString: urlString, httpMethod: "GET") { (error, data, response) in
