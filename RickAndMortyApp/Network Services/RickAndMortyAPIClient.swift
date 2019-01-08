@@ -27,7 +27,23 @@ final class RickAndMortyAPIClient {
             
         }
     }
-    
+    static func getEpisodes(completionHandler: @escaping (AppError?, [EpisodeInfo]?) -> Void) {
+        let urlString = "https://rickandmortyapi.com/api/episode"
+        NetworkHelper.performDataTask(urlString: urlString, httpMethod: "GET") { (error, data, response) in
+            if let error = error {
+                completionHandler(error, nil)
+            } else if let data = data {
+                do {
+                    let getData = try JSONDecoder().decode(Episode.self, from: data)
+                    completionHandler(nil, getData.results)
+                    
+                } catch {
+                    completionHandler(AppError.decodingError(error), nil)
+                }
+            }
+            
+        }
+    }
 }
 
 

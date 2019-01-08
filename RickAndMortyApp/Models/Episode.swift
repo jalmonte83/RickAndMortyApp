@@ -8,13 +8,15 @@
 
 import Foundation
 
-
+struct Episode: Codable {
+    let results: [EpisodeInfo]
+}
 struct EpisodeInfo: Codable {
     let id: Int
-    let name : String
+    let name : String?
     let airDate: String
-    let episodes: String
-    let characters: String
+    let episodes: String?
+    //let characters: String
     let url: String
     
     private enum CodingKeys: String, CodingKey {
@@ -22,7 +24,7 @@ struct EpisodeInfo: Codable {
         case name
         case airDate = "air_date"
         case episodes
-        case characters
+       // case characters
         case url
     }
 }

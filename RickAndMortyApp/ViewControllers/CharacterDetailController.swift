@@ -11,7 +11,7 @@ import UIKit
 class CharacterDetailController: UIViewController {
     var characters: CharacterInfo!
     
-    @IBOutlet weak var name: UILabel!
+    
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var species: UILabel!
     @IBOutlet weak var origin: UILabel!
@@ -21,7 +21,7 @@ class CharacterDetailController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        name.text = characters.name
+        title = characters.name
         species.text = characters.species
         origin.text = characters.origin.name
         status.text = characters.status

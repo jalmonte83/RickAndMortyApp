@@ -10,20 +10,33 @@ import UIKit
 
 class EpisodeViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     
     var episodes = [EpisodeInfo](){
         didSet {
             DispatchQueue.main.async {
-             //   self.tableView.reloadData()
+               self.tableView.reloadData()
             }
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        loadData()
+dump(episodes)
+        tableView.dataSource = self
+        tableView.delegate = self
+        
     }
-    
+    func loadData() {
+        RickAndMortyAPIClient.getEpisodes { (error, episodes) in
+            if let error = error {
+                print(error.errorMessage())
+            } else if let episodes = episodes {
+                self.episodes = episodes
+            }
+        }
+    }
 
     /*
     // MARK: - Navigation
@@ -35,4 +48,23 @@ class EpisodeViewController: UIViewController {
     }
     */
 
+}
+extension EpisodeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return episodes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell", for: indexPath) as? EpisodeCell else { return UITableViewCell()}
+        let episodeToSet = episodes[indexPath.row]
+        cell.cellName.text = episodeToSet.name
+        
+        cell.cellImage.image = UIImage(named: "RickMortyPortalGun")
+        return cell
+    }
+}
+extension EpisodeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
 }
